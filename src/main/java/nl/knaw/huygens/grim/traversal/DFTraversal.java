@@ -1,4 +1,13 @@
-
+/*******************************************************************************
+ * Copyright (c) 2012 Huygens ING.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU Public License v3.0
+ * which accompanies this distribution, and is available at
+ * http://www.gnu.org/licenses/gpl.html
+ * 
+ * Contributors:
+ *     Huygens ING - initial API and implementation
+ ******************************************************************************/
 package nl.knaw.huygens.grim.traversal;
 import java.util.List;
 
@@ -54,7 +63,8 @@ public class DFTraversal<T extends Entity> implements ITraversal<T> {
         	visited.add(name);
     		reaper = new Reaper<T>(this.service, this.entityClass);  		
         	T entity = reaper.reap(resourceNs + name);
-        	if (!actionHandler.verify(entity) && !(Strings.isNullOrEmpty(name))) {        		
+        	if (!actionHandler.verify(entity) && !(Strings.isNullOrEmpty(name))) { 
+//				TODO: if the name does not result in a resource, figure out a way to look for a valid resource in the string.         		
 //        		name = StringUtils.dropFromLastUpperCase(name);
 //        		if (name != "") {
 //        			System.out.println("Checking for: " + resourceNs + name);
