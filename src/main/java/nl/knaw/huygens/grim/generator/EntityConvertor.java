@@ -47,13 +47,13 @@ public class EntityConvertor<T extends Entity> {
 	    			NodeIterator list = resource.getModel().listObjectsOfProperty(p.getProperty());
 	    			while(list.hasNext()) {
 	    				RDFNode node  = list.next();
+	    				String value = "";
 	    				if(node.isLiteral()) {
-	    					String value = node.asLiteral().getString();
-	    					p.getMethod().invoke(entity, value);
+	    					 value = node.asLiteral().getString();
 	    				} else if(node.isResource()) {
-	    					String value = node.asResource().getLocalName();
-	    					p.getMethod().invoke(entity, value);	    					
+	    					value = node.asResource().getLocalName();
 	    				}
+    					p.getMethod().invoke(entity, value);	    					
 	    			}	    			
 	    		}
 			} catch (IllegalArgumentException e) {
@@ -91,5 +91,4 @@ public class EntityConvertor<T extends Entity> {
 		}
 		return list;
 	}
-	
 }

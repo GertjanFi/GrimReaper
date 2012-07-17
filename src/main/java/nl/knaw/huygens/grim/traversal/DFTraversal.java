@@ -11,16 +11,19 @@
 package nl.knaw.huygens.grim.traversal;
 import java.util.List;
 
-import com.google.common.base.Strings;
+//import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 
+import nl.knaw.huygens.grim.generator.Reaper;
 import nl.knaw.huygens.grim.model.Entity;
+import nl.knaw.huygens.grim.modelhandlers.EntityHandlerFactory;
+import nl.knaw.huygens.grim.modelhandlers.IEntityHandler;
 import nl.knaw.huygens.grim.utils.StringUtils;
 
 public class DFTraversal<T extends Entity> implements ITraversal<T> {
 
 	private final String resourceNs;
-	private final IActionHandler<T> actionHandler;
+	private final IEntityHandler<T> actionHandler;
 	private final String service;
 	private final Class<T> entityClass;	
 	private final List<T> entities;
@@ -29,7 +32,7 @@ public class DFTraversal<T extends Entity> implements ITraversal<T> {
 
 
 	public DFTraversal(String resourceNs, String service, Class<T> clazz) {
-		ActionHandlerFactory<T> factory = new ActionHandlerFactory<T>();
+		EntityHandlerFactory<T> factory = new EntityHandlerFactory<T>();
 		this.service = service;
 		this.entityClass = clazz;
 		this.actionHandler = factory.getHandler(clazz);
@@ -58,23 +61,27 @@ public class DFTraversal<T extends Entity> implements ITraversal<T> {
 	}
 	
 	private T doReap(String name) {
+//		TODO: if the name does not result in a resource: figure out a way to look for a valid resource in the string.         		
     	name = StringUtils.normalize(name.replace(" ", "_"));    	
     	if (!visited.contains(name)) {
-        	visited.add(name);
+    		visited.add(name);
     		reaper = new Reaper<T>(this.service, this.entityClass);  		
         	T entity = reaper.reap(resourceNs + name);
-        	if (!actionHandler.verify(entity) && !(Strings.isNullOrEmpty(name))) { 
-//				TODO: if the name does not result in a resource, figure out a way to look for a valid resource in the string.         		
-//        		name = StringUtils.dropFromLastUpperCase(name);
-//        		if (name != "") {
-//        			System.out.println("Checking for: " + resourceNs + name);
-        			doReap(name);
-//        		}
-        	} else {
-        		actionHandler.act(entity);
-        		depthFirstTraversal(entity);
-        	}
+    		actionHandler.write(entity);
+    		depthFirstTraversal(entity);
         	return entity;
     	} else return null;
-	}
+    	
+//    	if (!actionHandler.verify(entity) && !(Strings.isNullOrEmpty(name))) { 
+//    		name = StringUtils.dropFromLastUpperCase(name);
+//    		if (name != "") {
+//    			System.out.println("Checking for: " + resourceNs + name);
+//    			doReap(name);
+//    		}
+//    	} else {
+//    		actionHandler.act(entity);
+//    		depthFirstTraversal(entity);
+//    	}
+    	
+	}        	
 }
