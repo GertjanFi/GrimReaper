@@ -54,7 +54,7 @@ public class DFTraversal<T extends Entity> implements ITraversal<T> {
     		T entity = (T) actor.act(name);
     		depthFirstTraversal(entity);
     		return entity;
-    	} else return null;	//TODO: fix this
+    	} else return null;	//FIXME: null still suxx
 	}
      	
 }

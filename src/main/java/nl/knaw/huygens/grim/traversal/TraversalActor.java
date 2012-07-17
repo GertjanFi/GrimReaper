@@ -9,17 +9,16 @@ import nl.knaw.huygens.grim.utils.StringUtils;
 public class TraversalActor<T extends Entity> {
 
 	private final String resourceNs;
-	private final IEntityHandler<T> actionHandler;
+	private final IEntityHandler<T> entityHandler;
 	private final String service;
 	private final Class<T> entityClass;	
 	private Reaper<T> reaper;
-
 	
 	public TraversalActor(String resourceNs, String service, Class<T> clazz) {
 		EntityHandlerFactory<T> factory = new EntityHandlerFactory<T>();
 		this.service = service;
 		this.entityClass = clazz;
-		this.actionHandler = factory.getHandler(clazz);
+		this.entityHandler = factory.getHandler(clazz);
 		this.resourceNs = resourceNs;	
 	}
 	
@@ -28,7 +27,9 @@ public class TraversalActor<T extends Entity> {
     	name = StringUtils.normalize(name.replace(" ", "_"));    	
 		reaper = new Reaper<T>(this.service, this.entityClass);  		
     	T entity = reaper.reap(resourceNs + name);
-		actionHandler.write(entity);
+    	if (entityHandler.verify(entity)) {
+    		entityHandler.write(entity);
+    	}
     	return entity;   	
 //    	if (!actionHandler.verify(entity) && !(Strings.isNullOrEmpty(name))) { 
 //    		name = StringUtils.dropFromLastUpperCase(name);
@@ -37,9 +38,8 @@ public class TraversalActor<T extends Entity> {
 //    			doReap(name);
 //    		}
 //    	} else {
-//    		actionHandler.act(entity);
+//    		actionHandler.write(entity);
 //    		depthFirstTraversal(entity);
-//    	}
-    	
+//    	}  	
 	}   
 }

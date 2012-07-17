@@ -39,7 +39,7 @@ public class RDFHandler {
 			}
 			model.read(in, null);
 		} catch (Exception e) {
-		    System.out.println("Uri: " + uri + " invalid.");			
+		    System.out.println("Uri: " + uri + " invalid.");	
 		}
 		return model;
 	}	
