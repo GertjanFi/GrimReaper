@@ -24,7 +24,7 @@ public class LocationHandler<T extends Entity> implements IEntityHandler<T> {
 	public void write(T entity) {
 		Location location = (Location) entity;
 		try {
-			String fileName = "data/json/locations/" + location.getSource().replace("http://live.dbpedia.org/resource/", "dbpedia_") + ".json";
+			String fileName = "data/json/locations/" + location.getSource().replace("http://live.dbpedia.org/resource/", "dbpedia_").replace("/", "slash") + ".json";
 			BufferedWriter out = new BufferedWriter(new FileWriter(fileName));
 			out.write(mapper.writeValueAsString(location));
 			out.close();
