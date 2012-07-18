@@ -12,12 +12,15 @@ package nl.knaw.huygens.grim.modelhandlers;
 
 import nl.knaw.huygens.grim.model.Entity;
 import nl.knaw.huygens.grim.model.Location;
+import nl.knaw.huygens.grim.model.Person;
 
 public class EntityHandlerFactory<T extends Entity> {
 
 	public IEntityHandler<T> getHandler(Class<T> clazz) {
 		if (clazz.equals(Location.class)) {
-			return new EntityMockHandler<T>();
+			return new LocationHandler<T>();
+		} else if (clazz.equals(Person.class)) {
+			return new PersonHandler<T>();
 		} else return null;
 	}
 }

@@ -15,48 +15,56 @@ import java.io.FileWriter;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import nl.knaw.huygens.grim.model.Entity;
-import nl.knaw.huygens.grim.model.Location;
+import nl.knaw.huygens.grim.model.Person;
 
-public class LocationHandler<T extends Entity> implements IEntityHandler<T> {
+public class PersonHandler<T extends Entity> implements IEntityHandler<T> {
 	ObjectMapper mapper = new ObjectMapper();
 	
 	@Override
 	public void write(T entity) {
-		Location location = (Location) entity;
+		Person person = (Person) entity;
 		try {
-			String fileName = "data/json/locations/" + location.getSource().replace("http://live.dbpedia.org/resource/", "dbpedia_").replace("/", "slash") + ".json";
+			String fileName = "data/json/persons/" + person.getSource().replace("http://live.dbpedia.org/resource/", "dbpedia_").replace("/", "slash") + ".json";
 			BufferedWriter out = new BufferedWriter(new FileWriter(fileName));
-			out.write(mapper.writeValueAsString(location));
+			out.write(mapper.writeValueAsString(person));
 			out.close();
 		} catch (Exception e) {
-			throw new RuntimeException("Could not write json to file: " + location.getSource());
+			throw new RuntimeException("Could not write json to file: " + person.getSource());
 		}
-		writeOutput(location);					
+		writeOutput(person);					
 	}
 
 	@Override
 	public boolean verify(T entity) {
-		Location location = (Location) entity;
-		if (location.getNames().isEmpty()) {
+		Person person = (Person) entity;
+		if (person.getNames().isEmpty()) {
 			return false;	
 		} else return true;
 	}
 	
-	private void writeOutput(Location location) {
-		System.out.println("LOCATION: " + location.getSource());
-		for(String name : location.getNames()) {
+	private void writeOutput(Person person) {
+		System.out.println("PERSON: " + person.getSource());
+		for(String name : person.getNames()) {
 			System.out.println("Name: " + name);
 		}
-		System.out.println("Continent: " + location.getContinent());			
-		System.out.println("Longitude: " + location.getLongitude());			
-		System.out.println("Latitude: " + location.getLatitude());			
-		System.out.println("StartYear: " + location.getFoundingDate());			
-		System.out.println("EndYear: " + location.getDissolutionDate());	
-		for (String p : location.getPreceded()) {
+		for (String birth : person.getBirthDate()) {
+			System.out.println("BirthDate: " + birth);
+		}
+		for (String death : person.getDeathDate()) {
+			System.out.println("DeathDate: " + death);
+		}
+		for (String child : person.getBornChildren()) {
+			System.out.println("Child: " + child);
+		}
+		for (String spouse : person.getSpouses()) {
+			System.out.println("Spouse: " + spouse);
+		}
+		for (String p : person.getPreceded()) {
 			System.out.println("PrecededBy: " + p);
 		}
-		for (String s : location.getSucceeded()) {
+		for (String s : person.getSucceeded()) {
 			System.out.println("SucceededBy: " + s);
 		}
+
 	}
 }
