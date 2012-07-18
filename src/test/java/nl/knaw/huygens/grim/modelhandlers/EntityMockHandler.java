@@ -10,14 +10,20 @@
  ******************************************************************************/
 package nl.knaw.huygens.grim.modelhandlers;
 
+import org.codehaus.jackson.map.ObjectMapper;
+
 import nl.knaw.huygens.grim.model.Entity;
-import nl.knaw.huygens.grim.model.Location;
 
-public class EntityHandlerFactory<T extends Entity> {
+public class EntityMockHandler<T extends Entity> implements IEntityHandler<T> {
+	ObjectMapper mapper = new ObjectMapper();
+	
+	@Override
+	public void write(T entity) {
+		
+	}
 
-	public IEntityHandler<T> getHandler(Class<T> clazz) {
-		if (clazz.equals(Location.class)) {
-			return new EntityMockHandler<T>();
-		} else return null;
+	@Override
+	public boolean verify(T entity) {
+		return true;
 	}
 }

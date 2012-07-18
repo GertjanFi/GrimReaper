@@ -26,36 +26,41 @@ import com.hp.hpl.jena.rdf.model.Resource;
 
 public class EntityConvertor<T extends Entity> {
 
-	private final T entity;
+	private final Class<T> clazz;
 	private List<PropertyConversionWrapper> conversions;
 	
 	public EntityConvertor(String service, Class<T> clazz) {
+		this.clazz = clazz;
 		this.conversions = createConversionMap(service, clazz);
+	}
+	
+	public T convert(Resource resource) {
 		try {
-			this.entity = clazz.newInstance();
+			T entity = clazz.newInstance();
+			return doConversion(resource, entity);
 		} catch (InstantiationException e) {
 			throw new RuntimeException("Cannot instantiate class: " + clazz.getCanonicalName());
 		} catch (IllegalAccessException e) {
 			throw new RuntimeException();
-		}
+		}		
 	}
-	
-	public T convert(Resource resource) {
+
+	private T doConversion(Resource resource, T entity) {
 		for(PropertyConversionWrapper p : conversions) {
-    		try {
-	    		if (resource.hasProperty(p.getProperty())) {
-	    			NodeIterator list = resource.getModel().listObjectsOfProperty(p.getProperty());
-	    			while(list.hasNext()) {
-	    				RDFNode node  = list.next();
-	    				String value = "";
-	    				if(node.isLiteral()) {
-	    					 value = node.asLiteral().getString();
-	    				} else if(node.isResource()) {
-	    					value = node.asResource().getLocalName();
-	    				}
-    					p.getMethod().invoke(entity, value);	    					
-	    			}	    			
-	    		}
+			try {
+				if (resource.hasProperty(p.getProperty())) {
+					NodeIterator list = resource.getModel().listObjectsOfProperty(p.getProperty());
+					while(list.hasNext()) {
+						RDFNode node  = list.next();
+						String value = "";
+						if(node.isLiteral()) {
+							 value = node.asLiteral().getString();
+						} else if(node.isResource()) {
+							value = node.asResource().getLocalName();
+						}
+						p.getMethod().invoke(entity, value);	    					
+					}	    			
+				}
 			} catch (IllegalArgumentException e) {
 				throw new RuntimeException("Illegal Argument while adding '" + resource.getProperty(p.getProperty()).getLiteral().getString() + "' with method: '" + p.getMethod().getName() + "' on class: '" + entity.getClass().getName() + "'.");
 			} catch (IllegalAccessException e) {

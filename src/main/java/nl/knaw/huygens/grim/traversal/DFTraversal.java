@@ -38,6 +38,10 @@ public class DFTraversal<T extends Entity> implements ITraversal<T> {
 		return depthFirstTraversal(doReap(rootName));
 	}
 
+	public List<String> getVisited() {
+		return visited;
+	}
+	
 	private List<T> depthFirstTraversal(T entity) {
 	    if (isLeaf(entity)) {
 	        for (String childName : entity.getChildren()) {
@@ -62,7 +66,7 @@ public class DFTraversal<T extends Entity> implements ITraversal<T> {
     		T entity = actor.act(name);
     		depthFirstTraversal(entity);
     		return entity;
-    	} else return null;	//FIXME: null still suxx
+    	} else return null;	//FIXME: null suxx
 	}
      	
 }

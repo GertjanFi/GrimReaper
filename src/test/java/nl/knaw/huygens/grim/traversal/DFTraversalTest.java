@@ -12,8 +12,6 @@ package nl.knaw.huygens.grim.traversal;
 
 import static org.mockito.Mockito.*;
 
-import java.util.List;
-
 import nl.knaw.huygens.grim.model.EntityMock;
 
 import org.junit.Before;
@@ -50,15 +48,15 @@ public class DFTraversalTest {
 	
 	@Test
 	public void testRun() {
-		List<EntityMock> list = traverse.run("trunk");
+		traverse.run("trunk");
 		verify(mockedTraversalActor).act("trunk");		
 		verify(mockedTraversalActor).act("branche1");		
 		verify(mockedTraversalActor).act("branche2");		
 		verify(mockedTraversalActor).act("leaf1");		
 		verify(mockedTraversalActor).act("leaf2");
 		
-		for (EntityMock mock : list) {
-			System.out.println(mock.getName());
+		for (String name : traverse.getVisited()) {
+			System.out.println(name);			
 		}
 	}
 }
