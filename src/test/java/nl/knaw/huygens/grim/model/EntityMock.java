@@ -22,9 +22,8 @@ public class EntityMock extends Entity {
 	private List<String> children;
 
 	public EntityMock() {
-		// TODO Auto-generated constructor stub
 	}
-			
+	
 	public String getName() {
 		return name;
 	}
@@ -45,5 +44,9 @@ public class EntityMock extends Entity {
 	
 	public List<String> getChildren() {
 		return children;
+	}
+	
+	public void setChildren(List<String> children) {
+		this.children = children;
 	}
 }

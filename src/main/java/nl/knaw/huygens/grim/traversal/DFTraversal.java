@@ -24,9 +24,13 @@ public class DFTraversal<T extends Entity> implements ITraversal<T> {
 
 
 	public DFTraversal(String resourceNs, String service, Class<T> clazz) {
+		this(resourceNs, service, clazz, new TraversalActor<T>(resourceNs, service, clazz));
+	}
+	
+	public DFTraversal(String resourceNs, String service, Class<T> clazz, TraversalActor<T> actor) {
 		this.entities = Lists.newArrayList();
 		this.visited = Lists.newArrayList();
-		this.actor = new TraversalActor<T>(resourceNs, service, clazz);
+		this.actor = actor;		
 	}
 
 	@Override
@@ -45,13 +49,17 @@ public class DFTraversal<T extends Entity> implements ITraversal<T> {
 	}	
 	
 	private boolean isLeaf(T entity) {
-	    return entity.getChildren().size() == 0 ? false : true;
+		if (entity.getChildren() != null) {
+			return entity.getChildren().size() == 0 ? false : true;
+		} else {
+			return false;
+		}
 	}
 	
 	private T doReap(String name) {
     	if (!visited.contains(name)) {
     		visited.add(name);
-    		T entity = (T) actor.act(name);
+    		T entity = actor.act(name);
     		depthFirstTraversal(entity);
     		return entity;
     	} else return null;	//FIXME: null still suxx
