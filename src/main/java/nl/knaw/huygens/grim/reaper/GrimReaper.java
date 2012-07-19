@@ -26,7 +26,7 @@ public class GrimReaper {
 //		List<Location> visited = traversal.run("Roman_Kingdom");
 
 		ITraversal<Person> traversal = new DFTraversal<Person>(RESOURCE_NS, SERVICE, Person.class);
-		List<Person> visited = traversal.run("William_the_Silent");
+		List<Person> visited = traversal.run("Richard_I_of_England");
 	
 		System.out.println("Done! Visited: " + visited.size() + " entities.");
 	}

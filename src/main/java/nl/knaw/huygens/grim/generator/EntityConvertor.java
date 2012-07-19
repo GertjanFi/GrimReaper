@@ -54,9 +54,11 @@ public class EntityConvertor<T extends Entity> {
 						RDFNode node  = list.next();
 						String value = "";
 						if(node.isLiteral()) {
-							 value = node.asLiteral().getString();
+							value = node.asLiteral().getString();
 						} else if(node.isResource()) {
-							value = node.asResource().getLocalName();
+							//value = node.asResource().getLocalName(); JENA API BROKEN... content before encoded characters or even comma's is lost
+							value = node.asResource().getURI().replace("http://live.dbpedia.org/resource/", "").replace("_", " ");
+							System.out.println("Value: " + node.asResource().getLocalName());							
 						}
 						p.getMethod().invoke(entity, value);	    					
 					}	    			

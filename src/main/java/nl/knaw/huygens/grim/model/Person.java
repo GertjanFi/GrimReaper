@@ -18,10 +18,13 @@ public class Person extends Entity {
 	private List<String> names = Lists.newArrayList();
 	private List<String> birthDate = Lists.newArrayList();
 	private List<String> deathDate = Lists.newArrayList();
+	private String mother;
+	private String father;
 	private List<String> bornChildren = Lists.newArrayList();
 	private List<String> spouses = Lists.newArrayList();
 	private List<String> preceded = Lists.newArrayList();
 	private List<String> succeeded = Lists.newArrayList();
+	private String description;
 	
 
 	public Person() {
@@ -75,6 +78,24 @@ public class Person extends Entity {
 		this.bornChildren.add(child);
 	}
 	
+	public String getMother() {
+		return mother;
+	}
+
+	@ConvertsFrom(service="http://live.dbpedia.org", namespace="http://live.dbpedia.org/property/", property="mother")	
+	public void setMother(String mummy) {
+		this.mother = mummy;
+	}
+
+	public String getFather() {
+		return father;
+	}
+
+	@ConvertsFrom(service="http://live.dbpedia.org", namespace="http://live.dbpedia.org/property/", property="father")	
+	public void setFather(String daddy) {
+		this.father = daddy;
+	}
+	
 	public List<String> getSpouses() {
 		return spouses;
 	}
@@ -110,9 +131,19 @@ public class Person extends Entity {
 	public List<String> getChildren() {
 		List<String> returnValue = Lists.newArrayList();
 		returnValue.addAll(succeeded);
-		returnValue.addAll(preceded);
-		returnValue.addAll(spouses);
-		returnValue.addAll(bornChildren);
+//		returnValue.addAll(preceded);
+//		returnValue.addAll(spouses);
+//		returnValue.addAll(bornChildren);
 		return returnValue;
 	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	@ConvertsFrom(service="http://live.dbpedia.org", namespace="http://www.w3.org/2000/01/rdf-schema#", property="comment")
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
 }
