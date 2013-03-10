@@ -43,7 +43,7 @@ public class PersonHandler<T extends Entity> implements IEntityHandler<T> {
 	}
 	
 	private void writeOutput(Person person) {
-		System.out.println("PERSON: " + person.getSource());
+		System.out.println("PERSON: " + person.getSource());		
 		for(String name : person.getNames()) {
 			System.out.println("Name: " + name);
 		}
@@ -53,6 +53,8 @@ public class PersonHandler<T extends Entity> implements IEntityHandler<T> {
 		for (String death : person.getDeathDate()) {
 			System.out.println("DeathDate: " + death);
 		}
+		System.out.println("Mother: " + person.getMother());			
+		System.out.println("Father: " + person.getFather());					
 		for (String child : person.getBornChildren()) {
 			System.out.println("Child: " + child);
 		}
@@ -65,6 +67,6 @@ public class PersonHandler<T extends Entity> implements IEntityHandler<T> {
 		for (String s : person.getSucceeded()) {
 			System.out.println("SucceededBy: " + s);
 		}
-
+		System.out.println("Description: " + person.getDescription());			
 	}
 }

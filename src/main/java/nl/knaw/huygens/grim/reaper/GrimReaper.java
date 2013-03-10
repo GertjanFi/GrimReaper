@@ -11,7 +11,7 @@
 package nl.knaw.huygens.grim.reaper;
 
 import java.util.List;
-import nl.knaw.huygens.grim.model.Location;
+//import nl.knaw.huygens.grim.model.Location;
 import nl.knaw.huygens.grim.model.Person;
 import nl.knaw.huygens.grim.traversal.DFTraversal;
 import nl.knaw.huygens.grim.traversal.ITraversal;
@@ -26,7 +26,7 @@ public class GrimReaper {
 //		List<Location> visited = traversal.run("Roman_Kingdom");
 
 		ITraversal<Person> traversal = new DFTraversal<Person>(RESOURCE_NS, SERVICE, Person.class);
-		List<Person> visited = traversal.run("Richard_I_of_England");
+		List<Person> visited = traversal.run("Ebenezer_Dumont");
 	
 		System.out.println("Done! Visited: " + visited.size() + " entities.");
 	}

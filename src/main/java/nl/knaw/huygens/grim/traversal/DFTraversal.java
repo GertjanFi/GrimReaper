@@ -61,7 +61,7 @@ public class DFTraversal<T extends Entity> implements ITraversal<T> {
 	}
 	
 	private T doReap(String name) {
-    	if (!visited.contains(name)) {
+    	if (!visited.contains(name) && name != null) {
     		visited.add(name);
     		T entity = actor.act(name);
     		depthFirstTraversal(entity);

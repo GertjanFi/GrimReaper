@@ -131,9 +131,11 @@ public class Person extends Entity {
 	public List<String> getChildren() {
 		List<String> returnValue = Lists.newArrayList();
 		returnValue.addAll(succeeded);
-//		returnValue.addAll(preceded);
-//		returnValue.addAll(spouses);
-//		returnValue.addAll(bornChildren);
+		returnValue.addAll(preceded);
+		returnValue.addAll(spouses);
+		returnValue.add(father);
+		returnValue.add(mother);		
+		returnValue.addAll(bornChildren);
 		return returnValue;
 	}
 

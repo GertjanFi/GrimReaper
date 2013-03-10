@@ -43,7 +43,7 @@ public class DFTraversalTest {
 	    when(mockedTraversalActor.act("branche2")).thenReturn(branche2);
 	    when(mockedTraversalActor.act("leaf1")).thenReturn(leaf1);
 	    when(mockedTraversalActor.act("leaf2")).thenReturn(leaf2);
-	    traverse = new DFTraversal<EntityMock>("http://somewehere.org/outthere", "http://some.service/", EntityMock.class, mockedTraversalActor);
+	    traverse = new DFTraversal<EntityMock>("http://somewhere.org/outthere", "http://some.service/", EntityMock.class, mockedTraversalActor);
 	}
 	
 	@Test
