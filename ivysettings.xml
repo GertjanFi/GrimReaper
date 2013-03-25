@@ -31,11 +31,11 @@
 
     <!--
       For publishing artifacts to a maven repository
-    -->
+
     <filesystem name="m2-publish" m2compatible="true">
       <artifact pattern="${publish.repo}/[organisation]/[module]/[revision]/[artifact]-[revision](-[classifier]).[ext]"/>
     </filesystem>
-
+    -->
     <!-- strings the separate resolvers all together -->
     <chain name="default" changingPattern=".*SNAPSHOT">
       <resolver ref="public"/>
